@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
-app = Flask(__name__)
 
+web = Flask(__name__)
 
-@app.route("/")
+@web.route("/")
 def Home():
     return render_template("index.html")
