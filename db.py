@@ -4,8 +4,22 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+import json
+import requests
+import urllib.request
 
-x = input("Type something you want to say to copilot ")
+level = int(input("level: "))
+url = f"https://jlpt-vocab-api.vercel.app/api/words/random?level={level}"
+response = requests.get(url)
+if response.status_code == 200:
+    response = urllib.request.urlopen(url)
+    result = json.loads(response.read())
+    print(result['word'])
+else:
+    None
+
+
+x = result['word']
 
 
 # Path to your ChromeDriver
@@ -37,7 +51,7 @@ except:
 # Find the search box and enter "Copilot"
 time.sleep(2)
 search_box = driver.find_element(By.ID, "userInput")
-search_box.send_keys(f"Is the japanese phrase written correctly? Answer in Yes and No: {x}")
+search_box.send_keys(f"Construct a japanese sentance using the word:{x}")
 search_box.send_keys(Keys.RETURN)  # Press Enter
 
 
@@ -57,3 +71,5 @@ print("Chat says:", chat_response.text)
 
 # Close the browser
 driver.quit()
+
+
