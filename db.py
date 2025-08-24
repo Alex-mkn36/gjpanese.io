@@ -7,21 +7,21 @@ import json
 import requests
 import urllib.request
 
-level = int(input("level: "))
-url = f"https://jlpt-vocab-api.vercel.app/api/words/random?level={level}"
-response = requests.get(url)
-if response.status_code == 200:
-    response = urllib.request.urlopen(url)
-    result = json.loads(response.read())
-    print(result['word'])
-else:
-    None
-
-
-x = result['word']
-
 
 if __name__ == "__main__":
+
+    level = 5
+    url = f"https://jlpt-vocab-api.vercel.app/api/words/random?level={level}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        response = urllib.request.urlopen(url)
+        result = json.loads(response.read())
+        print(result['word'])
+    else:
+        None
+
+
+    x = result['word']
 
     # instantiate a Chrome browser
     driver = uc.Chrome(
