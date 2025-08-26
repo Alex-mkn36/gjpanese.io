@@ -2,13 +2,14 @@ import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
-
+import regex
 import json
 import requests
 import urllib.request
 
+
 if __name__ == "__main__":
-    # Get a random Japanese word from the JLPT vocabulary API
+
     level = 5
     url = f"https://jlpt-vocab-api.vercel.app/api/words/random?level={level}"
     response = requests.get(url)
@@ -19,49 +20,52 @@ if __name__ == "__main__":
     else:
         None
 
+    grammar = 'から for because'
+    word = result['word']
 
-    x = result['word']
+    # instantiate a Chrome browser
     driver = uc.Chrome(
         use_subprocess=False,
     )
 
-    driver.get("https://copilot.microsoft.com")
+    # visit the target URL
+    driver.get("https://schoolhub.ai/prompt/chat-for-students")
 
 
     # Wait for the page to load
-    time.sleep(30)
+    time.sleep(4)
 
 
     # Accept cookies if the prompt appears (optional, depends on region)
-    #try:
-    #    accept_button = driver.find_element(By.XPATH, "//button[contains(text(),'Accept all')]")
-    #    accept_button.click()
-    #    time.sleep(5)
-    #except:
-    #    pass  # If no cookie prompt, continue
+    try:
+        accept_button = driver.find_element(By.CLASS_NAME, "cm__btn")
+        accept_button.click()
+        time.sleep(1)
+    except:
+        pass  # If no cookie prompt, continue
 
 
     # Find the search box and enter "Copilot"
     time.sleep(2)
-    search_box = driver.find_element(By.ID, "userInput")
-    search_box.send_keys(f"Construct a japanese sentance using the word:{x}")
+    search_box = driver.find_element(By.CSS_SELECTOR, 'textarea[aria-label="Talk to me!"]')
+    search_box.send_keys(f"Construct one example Japanese sentence with no explanation using the word: {word}, with the Grammar point {grammar}, sentence complexity of N{level}. Format: Japanese sentence + example")
     search_box.send_keys(Keys.RETURN)  # Press Enter
 
 
     # Wait to see results
-    time.sleep(100)
+    time.sleep(3)
 
 
     # Get the full page source
     current_url= driver.current_url
-    chat_response = driver.find_element(By.CSS_SELECTOR, "p")
+    chat_response = driver.find_element(By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{word}") and not(contains(text(), "Japanese sentence"))]')
 
+    # Break japanese text from english meaning/romaji
+    japanese_text = ''.join(regex.findall(r'[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}ー。、！？]', chat_response.text))
 
-    # Print part of the HTML
-    print("Current URL:", current_url)
-    print("Chat says:", chat_response.text)
-
+    print(japanese_text)
 
     # Close the browser
     driver.quit()
+
 
