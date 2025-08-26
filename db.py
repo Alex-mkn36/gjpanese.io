@@ -29,16 +29,16 @@ if __name__ == "__main__":
     )
 
     # visit the target URL
-    driver.get("https://bot.sannysoft.com/")
+    driver.get("https://schoolhub.ai/prompt/chat-for-students")
 
 
     # Wait for the page to load
-    time.sleep(1000)
+    time.sleep(16)
 
 
     # Accept cookies if the prompt appears (optional, depends on region)
     try:
-        accept_button = driver.find_element(By.XPATH, "//button[contains(text(),'Accept all')]")
+        accept_button = driver.find_element(By.CLASS_NAME, "flex w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mb-2 h-8 max-h-48 min-h-8 border-none text-base")
         accept_button.click()
         time.sleep(1)
     except:
