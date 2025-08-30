@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GJPN</title>
+</head>
+<body>
+    <h1>Welcome to GJPN</h1>
+    <p> I like japnese</p>
+
+    <form method="POST">
+        <label for="level">Choose a level:</label>
+        <select name="level" id="level" required>
+            <option hidden>Select Level</option>
+            <option value="5">N5</option>
+            <option value="4">N4</option>
+            <option value="3">N3</option>
+            <option value="2">N2</option>
+            <option value="1">N1</option>
+        </select>
+
+        <br><br>
+        <label for="chapters">Choose a chapter:</label>
+        <select name="chapter" id="chapters">
+            <option hidden>Select Chapter</option>
+            <option value="1">Chapter 1</option>
+            <option value="2">Chapter 2</option>
+            <option value="3">Chapter 3</option>
+            <option value="4">Chapter 4</option>
+        </select>
+
+        <div id="grammer1-container" style="display:none;">
+            <label for="grammar1">Choose a Grammar:</label>
+            <select name="grammar" id="grammar1">
+                <option hidden>Select Grammar</option>
+                <option value="kara">kara</option>
+                <option value="demo">demo</option>
+                <option value="kute">kute</option>
+                <option value="youni">youni</option>
+            </select>
+        </div>
+        <div id="grammer2-container" style="display:none;">
+            <label for="grammar2">Choose a Grammar:</label>
+            <select name="grammar" id="grammar2">
+                <option hidden>Select Grammar</option>
+                <option value="souni">souni</option>
+                <option value="nagara">nagara</option>
+                <option value="koto">koto</option>
+                <option value="temitai">temitai</option>
+            </select>
+        </div>
+        <br><br>
+        <button type="submit">Generate example</button>
+    </form>
+
+    <p>{{ sentence }}</p>
+    <a href="/">Go to Home Page</a>
+    <a href="/example">Go to Example Page</a>
+
+    <script>
+    document.getElementById('chapters').addEventListener('change', function() {
+        var value = this.value;
+        var container1 = document.getElementById('grammer1-container');
+        var container2 = document.getElementById('grammer2-container');
+        if (value === "1") {
+            container1.style.display = 'block';
+            container2.style.display = 'none';
+        } else if (value === "2") {
+            container1.style.display = 'none';
+            container2.style.display = 'block';
+        } else {
+            container1.style.display = 'none';
+            container2.style.display = 'none';
+        }
+    });
+    </script>
+    <script src="static/js/app.js"></script>
+</body>
+</html>
