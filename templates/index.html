@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="static\icon\GJPN.png">
+    <title>Home</title>
 </head>
 <body>
-    <p> I like japnese</p>
+    <h1>Welcome to GJPN</h1>
+    <p>I like japnese</p>
+    <form action="/generate" method="POST">
+        <label for="level">Level (1-5):</label>
+        <input type="number" name="level" placeholder="enter level" min="1" max="5" required>
+        <br><br>
+        <label for="grammar">Grammar Points:</label>
+        <select id="grammar" name="grammar" required >
+            <optgroup label="Chapter 1"></optgroup>
+            <option value="から for because">から for because</option>
+            </optgroup>
+        </select>
+        <br><br>
+        <button type="submit">Run Example</button>
+    </form>
 </body>
 </html>
