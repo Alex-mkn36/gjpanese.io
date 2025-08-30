@@ -1,0 +1,45 @@
+body {
+    background: #fff1be;
+    font-family: "Nunito", sans-serif;
+    font-size: 1rem;
+    margin: 0;
+    position: relative;
+}
+a {
+    text-decoration: none;
+    color: #2317c6;
+    margin: 0 15px;
+}
+img.logo {
+    height: 120px;
+    position: fixed;
+    top: 10px;
+    right: 20px;
+}
+.banner {
+    padding: 20px;
+    text-align: center;
+    background: #fa9817;
+    color: #2317c6;
+    font-size: 80px;
+    margin: 0;
+}
+nav {
+    overflow: hidden;
+    background-color: #ce7f00;
+    text-align: center; 
+}
+
+.bookmark {
+    width: 100px;
+    height: 400px;
+    background: #d900ff;
+    position: fixed;
+    left: 20px;
+    z-index: 1;
+}
+
+main{
+    position:absolute;
+    z-index: 10;
+}
