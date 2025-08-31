@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <script>
+        const type = "{{ type }}";
+
+        if (type === "generate") {
+            fetch("/generate-sentence")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "done") {
+                        window.location.href = "/result";
+                    }
+                });
+        } else if (type === "check") {
+            fetch("/check-sentence")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "done") {
+                        window.location.href = "/result";
+                    }
+                });
+        }
+    </script>
+    <style>
+        body {
+            background-image: url('{{ background }}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            background-color: black;
+        }
+    </style>
+</head>
+<body></body>
+</html>

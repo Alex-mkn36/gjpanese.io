@@ -9,32 +9,31 @@ import json
 import requests
 import urllib.request
 
-
+####generate_sentence function####
 def generate_sentence(level, grammar):
     level = level
     if level == None:
-        japanese_text = "Error: No level selected"
+        japanese_text = "Error1: No level selected"
         return japanese_text
     
     url = f"https://jlpt-vocab-api.vercel.app/api/words/random?level={level}"
     response = requests.get(url)
     if response.status_code == 200:
-        response = urllib.request.urlopen(url)
-        result = json.loads(response.read())
+        result = response.json()
     else:
-        japanese_text = "Error: Unable to fetch word"
+        japanese_text = "Error1: Unable to fetch word"
         return japanese_text
 
     grammar = grammar
     if grammar == None:
-        japanese_text = "Error: No grammar selected"
+        japanese_text = "Error1: No grammar selected"
         return japanese_text
     
     word = result['word']
 
     # instantiate a Chrome browser
     driver = uc.Chrome(
-        use_subprocess=False,
+        use_subprocess=False, headless=False
     )
 
     # visit the target URL
@@ -47,7 +46,7 @@ def generate_sentence(level, grammar):
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "text-xl")))
     except:
         driver.quit()
-        japanese_text = "Error: Unable to fetch word"
+        japanese_text = "Error1: Unable to fetch word"
         return japanese_text
 
 
@@ -67,12 +66,8 @@ def generate_sentence(level, grammar):
         search_box.send_keys(Keys.RETURN)  # Press Enter
     except:
         driver.quit()
-        japanese_text = "Error: Unable to locate input box"
+        japanese_text = "Error1: Unable to locate input box"
         return japanese_text
-
-    # Wait to see results
-    time.sleep(10)
-
 
     # Get the full page source
     try:
@@ -80,7 +75,7 @@ def generate_sentence(level, grammar):
         chat_response = driver.find_element(By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{word}") and not(contains(text(), "Japanese sentence"))]')
     except:
         driver.quit()
-        japanese_text = "Error: Unable to fetch response"
+        japanese_text = "Error1: Unable to fetch response"
         return japanese_text
     
     # Break japanese text from english meaning/romaji
@@ -89,3 +84,71 @@ def generate_sentence(level, grammar):
     # Close the browser
     driver.quit()
     return japanese_text
+
+####check function#####
+def check(answer, grammar):
+
+    answer = answer
+    grammar = grammar
+    # instantiate a Chrome browser
+    driver = uc.Chrome(
+        use_subprocess=False, headless=False
+    )
+
+    # visit the target URL
+    driver.get("https://schoolhub.ai/prompt/chat-for-students")
+
+
+    wait = WebDriverWait(driver, 15)
+
+    # Wait for the page to load
+    try:
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "text-xl")))
+    except:
+        driver.quit()
+        answer = "Error2: Unable to fetch word"
+        return answer
+
+
+    # Accept cookies if the prompt appears (optional, depends on region)
+    try:
+        accept_button = driver.find_element(By.CLASS_NAME, "cm__btn")
+        accept_button.click()
+        time.sleep(1)
+    except:
+        pass  # If no cookie prompt, continue
+
+    # Find the search box and enter "Copilot"
+    try:
+        search_box = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'textarea[aria-label="Talk to me!"]')))
+        search_box = driver.find_element(By.CSS_SELECTOR, 'textarea[aria-label="Talk to me!"]')
+        search_box.send_keys(f"Check the following Japanese sentence if it uses the correct grammar structure of {grammar} and makes sense '{answer}'. Answer Strictly to the following format: Grammar structure for {grammar} = True/False, Makes sense = True/False, Explanation")
+        # Press Enter
+        try: 
+            if search_box.is_displayed() and search_box.is_enabled():
+                search_box.send_keys(Keys.RETURN)
+        except:
+            driver.quit()
+            answer = "Error2: Input box not interactable"
+            return answer  
+    except:
+        driver.quit()
+        answer = "Error2: Unable to locate input box"
+        return answer
+
+
+    # Get the full page source
+    try:
+        chat_marking = wait.until(EC.presence_of_element_located((By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{grammar}") and not(contains(text(), "Answer Strictly"))]')))
+        chat_marking = driver.find_element(By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{grammar}") and not(contains(text(), "Answer Strictly"))]')
+    except:
+        driver.quit()
+        answer = "Error2: Unable to fetch response"
+        return answer
+    
+    answer = chat_marking.text
+
+    # Close the browser
+    driver.quit()
+
+    return answer

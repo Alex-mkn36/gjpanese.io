@@ -1,9 +1,8 @@
 body {
     background: #fff1be;
     font-family: "Nunito", sans-serif;
-    font-size: 1rem;
+    font-size: 30px;
     margin: 0;
-    position: relative;
 }
 a {
     text-decoration: none;
@@ -33,13 +32,14 @@ nav {
 .bookmark {
     width: 100px;
     height: 400px;
-    background: #d900ff;
+    background: #a317bc;
     position: fixed;
     left: 20px;
     z-index: 1;
 }
 
 main{
+    margin-left: 20%;
     position:absolute;
     z-index: 10;
 }
