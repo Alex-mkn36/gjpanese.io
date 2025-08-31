@@ -1,0 +1,1 @@
+Hello if you encounter issues with the driver you need to go to https://googlechromelabs.github.io/chrome-for-testing and choose a chrome driver compatidable with your device and is up to date. You must then extract the driver and move it into the file. If you have further issues contact me at alex.m.k.n36@gmail.com.
