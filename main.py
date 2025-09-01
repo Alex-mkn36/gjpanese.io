@@ -5,10 +5,12 @@ import random
 app = Flask(__name__)
 app.secret_key = "hi"
 
+
 @app.route("/")
 def home():
     session.clear()
     return render_template("index.html")
+
 
 @app.route("/generate", methods=["POST"])
 def generate():

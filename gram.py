@@ -68,6 +68,8 @@ def generate_sentence(level, grammar):
         driver.quit()
         japanese_text = "Error1: Unable to locate input box"
         return japanese_text
+    
+    time.sleep(5)
 
     # Get the full page source
     try:
@@ -122,7 +124,16 @@ def check(answer, grammar):
     try:
         search_box = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'textarea[aria-label="Talk to me!"]')))
         search_box = driver.find_element(By.CSS_SELECTOR, 'textarea[aria-label="Talk to me!"]')
-        search_box.send_keys(f"Check the following Japanese sentence if it uses the correct grammar structure of {grammar} and makes sense '{answer}'. Answer Strictly to the following format: Grammar structure for {grammar} = True/False, Makes sense = True/False, Explanation")
+        search_box.send_keys(f"""Check the following Japanese sentence if it uses the correct grammar structure of {grammar} and makes sense '{answer}'. Then provide an explanation and a correct example if applicable.  Answer Strictly to the following format: 
+Grammar structure for {grammar} = True/False.
+Makes sense = True/False.
+-------------------------
+Explanation...
+--------------
+correct example""")
+        
+        time.sleep(1)
+
         # Press Enter
         try: 
             if search_box.is_displayed() and search_box.is_enabled():
@@ -136,6 +147,7 @@ def check(answer, grammar):
         answer = "Error2: Unable to locate input box"
         return answer
 
+    time.sleep(5)
 
     # Get the full page source
     try:

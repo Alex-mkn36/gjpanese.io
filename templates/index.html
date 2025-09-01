@@ -4,8 +4,8 @@
 <body>
     <h2>Generate Example Sentences</h2>
     <form action="/generate" method="POST">
-        <label for="level">Level (1-5):</label>
-        <input type="number" name="level" placeholder="enter level" min="1" max="5" required>
+        <label for="level" >Level (1-5):</label>
+        <input type="number" name="level" min="1" max="5" required>
         <br><br>
         <label for="grammar">Grammar Points:</label>
         <select id="grammar" name="grammar" required >
@@ -15,7 +15,10 @@
         </select>
         <br><br>
         <button type="submit" name="redirect">Run Example</button>
+        <br><br>
+        <p>This process will take a while, please do not</p>
     </form>
-
+    
+    <div class="loader"></div>
 </body>
 {% endblock %}

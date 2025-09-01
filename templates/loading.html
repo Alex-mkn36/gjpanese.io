@@ -32,7 +32,35 @@
             background-position: center center;
             background-color: black;
         }
+
+        .kanji-spinner {
+            font-size: 120px;
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #8bff9e;
+            animation: fade 2s ease-in-out infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes fade {
+        0% { opacity: 1; }
+        50% { opacity: 0.3; }
+        100% { opacity: 1; }
+        }
     </style>
 </head>
-<body></body>
+<body>
+    <div class="kanji-spinner" id="kanji-spinner">日</div>
+    <script>
+    const characters = ['日', '月', '火', '水', '木', '金', '土', '空', '海', '山'];
+    let index = 0;
+
+    setInterval(() => {
+    document.getElementById('kanji-spinner').textContent = characters[index];
+    index = (index + 1) % characters.length;
+    }, 500);
+    </script>
+</body>
 </html>

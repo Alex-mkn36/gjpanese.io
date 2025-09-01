@@ -4,7 +4,8 @@
 <body>
     <p>Example is: {{ sentence }} </p>
     <form action="/check" method="POST">
-        <input type="text" name="answer" placeholder="enter your answer" maxlength="100" required>
+        <textarea class="textbox" name="answer" placeholder="enter your answer" maxlength="100" required></textarea>
+        <br><br>
         <button type="submit" name="redirect">Check your Example</button>
     </form>
     {% if marking %}
