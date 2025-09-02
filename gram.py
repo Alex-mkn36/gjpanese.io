@@ -33,7 +33,7 @@ def generate_sentence(level, grammar):
 
     # instantiate a Chrome browser
     driver = uc.Chrome(
-        use_subprocess=False, headless=False
+        use_subprocess=False, headless=True
     )
 
     # visit the target URL
@@ -43,7 +43,7 @@ def generate_sentence(level, grammar):
     # Wait for the page to load
     try:
         wait = WebDriverWait(driver, 10)
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "text-xl")))
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "text-lg")))
     except:
         driver.quit()
         japanese_text = "Error1: Unable to fetch word"
@@ -73,8 +73,8 @@ def generate_sentence(level, grammar):
 
     # Get the full page source
     try:
-        chat_response = wait.until(EC.presence_of_element_located((By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{word}") and not(contains(text(), "Japanese sentence"))]')))
-        chat_response = driver.find_element(By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{word}") and not(contains(text(), "Japanese sentence"))]')
+        chat_response = wait.until(EC.presence_of_element_located((By.XPATH, f'//p[contains(., "{word}") and not(contains(., "Japanese sentence"))]')))
+        chat_response = driver.find_element(By.XPATH, f'//p[contains(., "{word}") and not(contains(., "Japanese sentence"))]')
     except:
         driver.quit()
         japanese_text = "Error1: Unable to fetch response"
@@ -94,7 +94,7 @@ def check(answer, grammar):
     grammar = grammar
     # instantiate a Chrome browser
     driver = uc.Chrome(
-        use_subprocess=False, headless=False
+        use_subprocess=False, headless=True
     )
 
     # visit the target URL
@@ -105,7 +105,7 @@ def check(answer, grammar):
 
     # Wait for the page to load
     try:
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "text-xl")))
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "text-lg")))
     except:
         driver.quit()
         answer = "Error2: Unable to fetch word"
@@ -124,13 +124,7 @@ def check(answer, grammar):
     try:
         search_box = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'textarea[aria-label="Talk to me!"]')))
         search_box = driver.find_element(By.CSS_SELECTOR, 'textarea[aria-label="Talk to me!"]')
-        search_box.send_keys(f"""Check the following Japanese sentence if it uses the correct grammar structure of {grammar} and makes sense '{answer}'. Then provide an explanation and a correct example if applicable.  Answer Strictly to the following format: 
-Grammar structure for {grammar} = True/False.
-Makes sense = True/False.
--------------------------
-Explanation...
---------------
-correct example""")
+        search_box.send_keys(f"Check the following Japanese sentence if it uses the correct grammar structure of {grammar} and makes sense '{answer}'. Then provide an explanation and a correct example if applicable.  Answer in the following format: Grammar structure for {grammar} = True/False + Makes sense = True/False + Explanation + correct example")
         
         time.sleep(1)
 
@@ -151,8 +145,8 @@ correct example""")
 
     # Get the full page source
     try:
-        chat_marking = wait.until(EC.presence_of_element_located((By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{grammar}") and not(contains(text(), "Answer Strictly"))]')))
-        chat_marking = driver.find_element(By.XPATH, f'//div[@class="gap-2"]/div[@class="space-y-2"]/p[contains(text(), "{grammar}") and not(contains(text(), "Answer Strictly"))]')
+        chat_marking = wait.until(EC.presence_of_element_located((By.XPATH, f'//p[contains(., "{grammar}") and not(contains(., "Check the following Japanese sentence"))]')))
+        chat_marking = driver.find_element(By.XPATH, f'//p[contains(., "{grammar}") and not(contains(., "Check the following Japanese sentence"))]')
     except:
         driver.quit()
         answer = "Error2: Unable to fetch response"
