@@ -1,0 +1,17 @@
+{
+    "name": "Grammar Japanese learning",
+    "short_name": "GJPN",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#1abc9c",
+    "theme_color": "#fdfdfd",
+    "orientation": "landscape-primary",
+    "icons": [
+        {
+            "src": "icons/GJPN.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any"
+        }
+    ],"screenshots" : []
+}
